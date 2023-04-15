@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/srjchsv/notifications-service/internal/consumer"
 	"github.com/srjchsv/notifications-service/internal/notifications"
+	"github.com/srjchsv/notifications-service/internal/pkg/appmetrics"
 	"github.com/srjchsv/notifications-service/internal/pkg/ws"
 )
 
@@ -24,9 +25,12 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
+	// Init metrics
+	appmetrics.InitPrometheus(e)
+
 	e.GET("/ws", func(c echo.Context) error {
 		return ws.UpgradeConnection(c.Response(), c.Request(), notificationsService)
 	})
 
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
 }
