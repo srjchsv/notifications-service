@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	kafkaConsumer, err := consumer.NewKafkaConsumer(os.Getenv("KAFKA_HOST"))
+	kafkaConsumer, err := consumer.NewKafkaConsumer(os.Getenv("BROKER_HOST"))
 	if err != nil {
 		log.Fatalf("Failed to initialize Kafka consumer: %v", err)
 	}

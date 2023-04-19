@@ -1,0 +1,12 @@
+coversion: '3'
+services:
+  myapp:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "${PORT}:${PORT}"
+networks:
+  default:
+    external: true
+    name: my_shared_network

@@ -1,7 +1,12 @@
 # Load environment variables from .env file
-include .env
+include dev.env
 
 export
+.ONESHELL:
 
 run:
-	go run cmd/myapp/main.go
+	@export BROKER_HOST=localhost
+	@go run cmd/myapp/main.go
+
+container:
+	docker compose up
