@@ -28,7 +28,8 @@ func main() {
 	// Init metrics
 	appmetrics.InitPrometheus(e)
 
-	e.GET("/ws", func(c echo.Context) error {
+	notifications := e.Group("notifications")
+	notifications.GET("/ws", func(c echo.Context) error {
 		return ws.UpgradeConnection(c.Response(), c.Request(), notificationsService)
 	})
 
