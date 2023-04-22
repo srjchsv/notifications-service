@@ -1,5 +1,7 @@
 #!/bin/bash
 
+imageName="notifications-service"
+
 if [[ $1 == "dev" ]]; then
      # Load environment variables from dev.env file
     source dev.env
@@ -19,9 +21,17 @@ elif [[ $1 == "compose" ]]; then
     # Run docker compose
     docker compose up
 
-else
-    echo "Invalid argument. Please specify either 'dev' or 'compose'"
-fi
+elif [[ $1 == "build" ]]; then
+    # Build image
+    docker build -t $imageName .
 
-# Stop the containers
-docker compose down
+elif [[ $1 == "push" ]]; then
+    # Tag image
+    docker tag $imageName srjchsv/$imageName
+
+    # Push image to remote registry
+    docker push srjchsv/$imageName
+
+else
+    echo "Invalid argument"
+fi
